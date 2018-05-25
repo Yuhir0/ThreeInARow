@@ -1,13 +1,10 @@
-import java.awt.BorderLayout;
+// @author: Oscar Garcia
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import javax.swing.JTable;
-import javax.swing.JTextPane;
 import javax.swing.JButton;
 import java.awt.Button;
 import java.awt.Font;
@@ -34,7 +31,7 @@ public class Match extends JFrame {
 	private JButton btnBack;
 	
 	private int turn = 0;
-	private String[] simbol = {"O","X"};
+	private Player[] players = new Player[2];
 	
 	private String[][] board = new String[3][3];
 	private HashSet<Button> cells = new HashSet<Button>();
@@ -49,7 +46,7 @@ public class Match extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Match frame = new Match();
+					Match frame = new Match(new Player("Player1","O"), new Player("Player2", "X"));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -61,7 +58,9 @@ public class Match extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Match() {
+	public Match(Player p1, Player p2) {
+		players[0] = p1; players[1] = p2;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 650, 650);
 		contentPane = new JPanel();
@@ -195,8 +194,8 @@ public class Match extends JFrame {
 	
 	public void buttonClicked(Button b, int x, int y) {
 		if (match && b.getLabel().isEmpty()) {
-			b.setLabel(simbol[turn]);
-			board[x][y] = simbol[turn];
+			b.setLabel(players[turn].getPiece());
+			board[x][y] = players[turn].getPiece();
 			haveWinner();
 			
 			if (turn == 0) turn++;
@@ -206,7 +205,7 @@ public class Match extends JFrame {
 	
 	public void haveWinner() {
 		if (completedRow() || completedColumn() || completedDiagonal()) {
-			endText.setText("The winner is " + simbol[turn]);
+			endText.setText("The winner is " + players[turn].getName());
 			match = false;
 		} else if (allFill()) {
 			endText.setText("Draw!");
@@ -219,7 +218,7 @@ public class Match extends JFrame {
 		for (String[] r: board) {
 			row = 0;
 	        for (String c: r) {
-	            if (c != null && c.equals(simbol[turn])) {
+	            if (c != null && c.equals(players[turn].getPiece())) {
 	                row++;
 	            }
 	        }
@@ -233,7 +232,7 @@ public class Match extends JFrame {
 		for (int c = 0; c < board.length; c++) {
 			col = 0;
 	        for (int r = 0; r < board[c].length; r++) {
-	            if (board[r][c] != null && board[r][c].equals(simbol[turn])) {
+	            if (board[r][c] != null && board[r][c].equals(players[turn].getPiece())) {
 	                col++;
 	            }
 	        }
@@ -246,7 +245,7 @@ public class Match extends JFrame {
 	public boolean completedDiagonal() {
 		int diag = 0;
 		for (int i = 0; i < board.length; i++) {
-		    if (board[i][i] != null && board[i][i].equals(simbol[turn])) {
+		    if (board[i][i] != null && board[i][i].equals(players[turn].getPiece())) {
 		        diag++;
 		    }
 		}
@@ -254,7 +253,7 @@ public class Match extends JFrame {
 		
 		diag = 0;
 		for (int i = 0; i < board.length; i++) {
-		    if (board[i][2-i] != null && board[i][2-i].equals(simbol[turn])) {
+		    if (board[i][2-i] != null && board[i][2-i].equals(players[turn].getPiece())) {
 		        diag++;
 		    }
 		}
