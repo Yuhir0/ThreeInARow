@@ -14,7 +14,4 @@ public class Player {
 	public String getPiece() {
 		return piece;
 	}
-	public String toString() {
-		return piece;
-	}
 }
