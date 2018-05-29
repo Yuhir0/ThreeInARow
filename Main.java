@@ -93,6 +93,9 @@ public class Main extends JFrame {
 		btnStart.setFont(new Font("Impact", Font.BOLD, 50));
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Match match = new Match(new Player("Player1","O"), new Player("Player2", "X"));
+				match.setVisible(true);
+				dispose();
 			}
 		});
 		

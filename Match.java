@@ -59,6 +59,7 @@ public class Match extends JFrame {
 	 * Create the frame.
 	 */
 	public Match(Player p1, Player p2) {
+		setTitle("Tres en Raya");
 		players[0] = p1; players[1] = p2;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,7 +76,7 @@ public class Match extends JFrame {
 			}
 		});
 		cell00.setFont(new Font("Arial Black", Font.BOLD, 50));
-		cell00.setBounds(181, 155, 100, 100);
+		cell00.setBounds(181, 109, 100, 100);
 		contentPane.add(cell00);
 		cells.add(cell00);
 		
@@ -86,7 +87,7 @@ public class Match extends JFrame {
 			}
 		});
 		cell01.setFont(new Font("Arial Black", Font.BOLD, 50));
-		cell01.setBounds(281, 155, 100, 100);
+		cell01.setBounds(281, 109, 100, 100);
 		contentPane.add(cell01);
 		cells.add(cell01);
 		
@@ -97,7 +98,7 @@ public class Match extends JFrame {
 			}
 		});
 		cell02.setFont(new Font("Arial Black", Font.BOLD, 50));
-		cell02.setBounds(381, 155, 100, 100);
+		cell02.setBounds(381, 109, 100, 100);
 		contentPane.add(cell02);
 		cells.add(cell02);
 		
@@ -108,7 +109,7 @@ public class Match extends JFrame {
 			}
 		});
 		cell10.setFont(new Font("Arial Black", Font.BOLD, 50));
-		cell10.setBounds(181, 255, 100, 100);
+		cell10.setBounds(181, 209, 100, 100);
 		contentPane.add(cell10);
 		cells.add(cell10);
 		
@@ -119,7 +120,7 @@ public class Match extends JFrame {
 			}
 		});
 		cell11.setFont(new Font("Arial Black", Font.BOLD, 50));
-		cell11.setBounds(281, 255, 100, 100);
+		cell11.setBounds(281, 209, 100, 100);
 		contentPane.add(cell11);
 		cells.add(cell11);
 		
@@ -130,7 +131,7 @@ public class Match extends JFrame {
 			}
 		});
 		cell12.setFont(new Font("Arial Black", Font.BOLD, 50));
-		cell12.setBounds(381, 255, 100, 100);
+		cell12.setBounds(381, 209, 100, 100);
 		contentPane.add(cell12);
 		cells.add(cell12);
 		
@@ -141,7 +142,7 @@ public class Match extends JFrame {
 			}
 		});
 		cell20.setFont(new Font("Arial Black", Font.BOLD, 50));
-		cell20.setBounds(181, 355, 100, 100);
+		cell20.setBounds(181, 309, 100, 100);
 		contentPane.add(cell20);
 		cells.add(cell20);
 		
@@ -152,7 +153,7 @@ public class Match extends JFrame {
 			}
 		});
 		cell21.setFont(new Font("Arial Black", Font.BOLD, 50));
-		cell21.setBounds(281, 355, 100, 100);
+		cell21.setBounds(281, 309, 100, 100);
 		contentPane.add(cell21);
 		cells.add(cell21);
 		
@@ -163,23 +164,25 @@ public class Match extends JFrame {
 			}
 		});
 		cell22.setFont(new Font("Arial Black", Font.BOLD, 50));
-		cell22.setBounds(381, 355, 100, 100);
+		cell22.setBounds(381, 309, 100, 100);
 		contentPane.add(cell22);
 		cells.add(cell22);
 		
 		endText = new JLabel();
 		endText.setFont(new Font("Arial", Font.BOLD, 20));
 		endText.setHorizontalAlignment(SwingConstants.CENTER);
-		endText.setBounds(191, 461, 290, 46);
+		endText.setBounds(191, 441, 290, 46);
 		contentPane.add(endText);
 		
 		btnBack = new JButton("Back");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Main main = new Main();
+				main.setVisible(true);
 				dispose();
 			}
 		});
-		btnBack.setBounds(181, 519, 117, 25);
+		btnBack.setBounds(181, 540, 117, 25);
 		contentPane.add(btnBack);
 		
 		btnRestart = new JButton("Restart");
@@ -188,7 +191,7 @@ public class Match extends JFrame {
 				restartMatch();
 			}
 		});
-		btnRestart.setBounds(364, 519, 117, 25);
+		btnRestart.setBounds(364, 540, 117, 25);
 		contentPane.add(btnRestart);
 	}
 	
