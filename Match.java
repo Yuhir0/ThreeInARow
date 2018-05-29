@@ -1,7 +1,6 @@
 // @author: Oscar Garcia
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -199,10 +198,10 @@ public class Match extends JFrame {
 		if (match && b.getLabel().isEmpty()) {
 			b.setLabel(players[turn].getPiece());
 			board[x][y] = players[turn].getPiece();
+			
 			haveWinner();
 			
-			if (turn == 0) turn++;
-			else turn--;
+			nextTurn();
 		}
 	}
 	
@@ -210,9 +209,15 @@ public class Match extends JFrame {
 		if (completedRow() || completedColumn() || completedDiagonal()) {
 			endText.setText("The winner is " + players[turn].getName());
 			match = false;
+			writeScore(players[turn], 1);
+			nextTurn();
+			writeScore(players[turn], -1);
 		} else if (allFill()) {
 			endText.setText("Draw!");
 			match = false;
+			writeScore(players[turn], 0);
+			nextTurn();
+			writeScore(players[turn], 0);
 		}
 	}
 	
@@ -293,6 +298,21 @@ public class Match extends JFrame {
 			turn = 0;
 			endText.setText("");
 			match = true;
+		}
+	}
+	
+	public void nextTurn() {
+		if (turn == 0) turn++;
+		else turn--;
+	}
+	
+	public void writeScore(Player p, int state) {
+		if (state == 1) {
+			
+		} else if (state == 0) {
+			
+		} else {
+			
 		}
 	}
 }
