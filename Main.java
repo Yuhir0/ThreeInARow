@@ -1,3 +1,4 @@
+// Dani Gonzalo
 import java.awt.EventQueue;
 import javax.xml.*;
 import javax.swing.JFrame;
@@ -13,6 +14,9 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
@@ -120,7 +124,14 @@ public class Main extends JFrame {
 		btnScoreboard.setBackground(Color.WHITE);
 		btnScoreboard.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Scoreboard scoreboard = new Scoreboard();
+				Scoreboard scoreboard = null;
+				try {
+					scoreboard = new Scoreboard();
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				scoreboard.setVisible(true);
 				dispose();
 			}

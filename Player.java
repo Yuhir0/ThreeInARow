@@ -1,4 +1,4 @@
-
+// Dani Gonzalo
 public class Player {
 	private String name;
 	private String piece;
