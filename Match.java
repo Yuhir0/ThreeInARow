@@ -47,6 +47,8 @@ public class Match extends JFrame {
 	
 	private boolean canClick = true;
 	private JButton btnRestart;
+	
+	private String scorePath = "./src/score/score";
 
 	/**
 	 * Launch the application.
@@ -381,22 +383,34 @@ public class Match extends JFrame {
 	
 	public void writeScore(Player p, int state) {
 		BufferedWriter fileScoreW = null;
+		int c;
+		String newScore;
 		try {
-			fileScoreW = OpenFile.a("");
-			String[]
-			if (state == 1) {
-				
-			} else if (state == 0) {
-				
-			} else {
-				
-			}
-		} catch (IOException e) {
+			String[] playerScore = playerInScore(p.getName());
+			if (playerScore == null) playerScore = new String[] {p.getName(),"0","0","0"};
 			
+			if (state == 1) {
+				c = Integer.parseInt(playerScore[1]);
+				c++;
+				newScore = playerScore[0] + "," + c + "," + playerScore[2] + "," + playerScore[3];
+			} else if (state == -1) {
+				c = Integer.parseInt(playerScore[2]);
+				c++;
+				newScore = playerScore[0] + "," + playerScore[1] + "," + c + "," + playerScore[3];
+			} else {
+				c = Integer.parseInt(playerScore[3]);
+				c++;
+				newScore = playerScore[0] + "," + playerScore[1] + "," + playerScore[2] + "," + c;
+			}
+			
+			fileScoreW = OpenFile.a(scorePath);
+			fileScoreW.write(newScore);
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
 		} finally {
 			try {				
 				if (fileScoreW != null)  fileScoreW.close();
-			} catch (IOException e) {}
+			} catch (IOException e) {System.out.println(e.getMessage());}
 		}
 	}
 	
@@ -406,27 +420,31 @@ public class Match extends JFrame {
 		String line = null;
 		String file = "";
 		String[] player = null;
+		
 		try {
-			fileScoreR = OpenFile.r("score");
+			fileScoreR = OpenFile.r(scorePath);
 			while ((line = fileScoreR.readLine()) != null) {
 				String[] splice = line.split(",");
-				if (splice[0].equals(n)) {
-					player = splice;
+				if (!splice[0].equals(n)) {
+					file += line + "\n";
 				} else {
-					file += line;
+					player = splice;
 				}
 			}
-			fileScoreW = OpenFile.w("score");
+			
+			fileScoreR.close();
+			fileScoreW = OpenFile.w(scorePath);
 			fileScoreW.write(file);
-		} catch (IOException e) {}
-		
-		finally {
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		} finally {
 			try {
 				if (fileScoreR != null) fileScoreR.close();
 				
-				if (fileScoreW != null) fileScoreR.close();
-			} catch (IOException e) {}
+				if (fileScoreW != null) fileScoreW.close();
+			} catch (IOException e) {System.out.println(e.getMessage());}
 		}
+		System.out.println(file);
 		return player;
 	}
 }
