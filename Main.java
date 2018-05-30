@@ -1,8 +1,5 @@
 import java.awt.EventQueue;
-<<<<<<< HEAD
 import javax.xml.*;
-=======
->>>>>>> e5ce7722e59f316d1b59c54dffcfb511484cf302
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;

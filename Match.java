@@ -8,11 +8,20 @@ import javax.swing.JButton;
 import java.awt.Button;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import java.awt.Cursor;
+import java.awt.Color;
+import java.awt.SystemColor;
+import javax.swing.UIManager;
+import javax.swing.JSeparator;
+import java.awt.List;
 
 public class Match extends JFrame {
 
@@ -28,6 +37,7 @@ public class Match extends JFrame {
 	private Button cell22;
 	private JLabel endText;
 	private JButton btnBack;
+	private JLabel lblPlayerTurn;
 	
 	private int turn = 0;
 	private Player[] players = new Player[2];
@@ -35,7 +45,7 @@ public class Match extends JFrame {
 	private String[][] board = new String[3][3];
 	private HashSet<Button> cells = new HashSet<Button>();
 	
-	private boolean match = true;
+	private boolean canClick = true;
 	private JButton btnRestart;
 
 	/**
@@ -58,17 +68,23 @@ public class Match extends JFrame {
 	 * Create the frame.
 	 */
 	public Match(Player p1, Player p2) {
-		setTitle("Tres en Raya");
+		setTitle("Three in a Row");
 		players[0] = p1; players[1] = p2;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 650, 650);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBackground(Color.LIGHT_GRAY);
+		contentPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		contentPane.setBorder(UIManager.getBorder("Button.border"));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		cell00 = new Button();
+		cell00.setForeground(Color.DARK_GRAY);
+		cell00.setBackground(Color.WHITE);
+		cell00.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		cell00.setFocusable(false);
 		cell00.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buttonClicked(cell00,0,0);
@@ -80,6 +96,10 @@ public class Match extends JFrame {
 		cells.add(cell00);
 		
 		cell01 = new Button();
+		cell01.setForeground(Color.DARK_GRAY);
+		cell01.setBackground(Color.WHITE);
+		cell01.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		cell01.setFocusable(false);
 		cell01.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buttonClicked(cell01,0,1);
@@ -91,6 +111,10 @@ public class Match extends JFrame {
 		cells.add(cell01);
 		
 		cell02 = new Button();
+		cell02.setForeground(Color.DARK_GRAY);
+		cell02.setBackground(Color.WHITE);
+		cell02.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		cell02.setFocusable(false);
 		cell02.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buttonClicked(cell02,0,2);
@@ -102,6 +126,10 @@ public class Match extends JFrame {
 		cells.add(cell02);
 		
 		cell10 = new Button();
+		cell10.setForeground(Color.DARK_GRAY);
+		cell10.setBackground(Color.WHITE);
+		cell10.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		cell10.setFocusable(false);
 		cell10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buttonClicked(cell10,1,0);
@@ -113,6 +141,10 @@ public class Match extends JFrame {
 		cells.add(cell10);
 		
 		cell11 = new Button();
+		cell11.setForeground(Color.DARK_GRAY);
+		cell11.setBackground(Color.WHITE);
+		cell11.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		cell11.setFocusable(false);
 		cell11.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buttonClicked(cell11,1,1);
@@ -124,6 +156,10 @@ public class Match extends JFrame {
 		cells.add(cell11);
 		
 		cell12 = new Button();
+		cell12.setForeground(Color.DARK_GRAY);
+		cell12.setBackground(Color.WHITE);
+		cell12.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		cell12.setFocusable(false);
 		cell12.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buttonClicked(cell12,1,2);
@@ -135,6 +171,10 @@ public class Match extends JFrame {
 		cells.add(cell12);
 		
 		cell20 = new Button();
+		cell20.setForeground(Color.DARK_GRAY);
+		cell20.setBackground(Color.WHITE);
+		cell20.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		cell20.setFocusable(false);
 		cell20.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buttonClicked(cell20,2,0);
@@ -146,6 +186,10 @@ public class Match extends JFrame {
 		cells.add(cell20);
 		
 		cell21 = new Button();
+		cell21.setForeground(Color.DARK_GRAY);
+		cell21.setBackground(Color.WHITE);
+		cell21.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		cell21.setFocusable(false);
 		cell21.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buttonClicked(cell21,2,1);
@@ -157,6 +201,10 @@ public class Match extends JFrame {
 		cells.add(cell21);
 		
 		cell22 = new Button();
+		cell22.setForeground(Color.DARK_GRAY);
+		cell22.setBackground(Color.WHITE);
+		cell22.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		cell22.setFocusable(false);
 		cell22.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buttonClicked(cell22,2,2);
@@ -174,6 +222,9 @@ public class Match extends JFrame {
 		contentPane.add(endText);
 		
 		btnBack = new JButton("Back");
+		btnBack.setBackground(Color.WHITE);
+		btnBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnBack.setFocusable(false);
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Main main = new Main();
@@ -185,6 +236,9 @@ public class Match extends JFrame {
 		contentPane.add(btnBack);
 		
 		btnRestart = new JButton("Restart");
+		btnRestart.setBackground(SystemColor.info);
+		btnRestart.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnRestart.setFocusable(false);
 		btnRestart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				restartMatch();
@@ -192,33 +246,50 @@ public class Match extends JFrame {
 		});
 		btnRestart.setBounds(364, 540, 117, 25);
 		contentPane.add(btnRestart);
+		
+		lblPlayerTurn = new JLabel(players[0].getName());
+		lblPlayerTurn.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPlayerTurn.setFont(new Font("Arial", Font.BOLD, 15));
+		lblPlayerTurn.setBounds(181, 53, 300, 25);
+		contentPane.add(lblPlayerTurn);
 	}
 	
 	public void buttonClicked(Button b, int x, int y) {
-		if (match && b.getLabel().isEmpty()) {
+		if (canClick && b.getLabel().isEmpty()) {
 			b.setLabel(players[turn].getPiece());
 			board[x][y] = players[turn].getPiece();
 			
-			haveWinner();
-			
-			nextTurn();
+			if (!haveWinner()) {
+				nextTurn();
+				
+				lblPlayerTurn.setText(players[turn].getName());
+			}
 		}
 	}
 	
-	public void haveWinner() {
+	public boolean haveWinner() {
 		if (completedRow() || completedColumn() || completedDiagonal()) {
 			endText.setText("The winner is " + players[turn].getName());
-			match = false;
+			canClick = false;
+			
+			lblPlayerTurn.setText("");
+			
 			writeScore(players[turn], 1);
 			nextTurn();
 			writeScore(players[turn], -1);
+			return true;
 		} else if (allFill()) {
 			endText.setText("Draw!");
-			match = false;
+			canClick = false;
+			
+			lblPlayerTurn.setText("");
+			
 			writeScore(players[turn], 0);
 			nextTurn();
 			writeScore(players[turn], 0);
+			return true;
 		}
+		return false;
 	}
 	
 	public boolean completedRow() {
@@ -283,7 +354,7 @@ public class Match extends JFrame {
 	}
 	
 	public void restartMatch() {
-		if (!match) {
+		if (!canClick) {
 			Iterator<Button> iter = cells.iterator();
 			while (iter.hasNext()) {
 				iter.next().setLabel("");
@@ -297,7 +368,9 @@ public class Match extends JFrame {
 			
 			turn = 0;
 			endText.setText("");
-			match = true;
+			canClick = true;
+			
+			lblPlayerTurn.setText(players[turn].getName());
 		}
 	}
 	
@@ -307,12 +380,53 @@ public class Match extends JFrame {
 	}
 	
 	public void writeScore(Player p, int state) {
-		if (state == 1) {
+		BufferedWriter fileScoreW = null;
+		try {
+			fileScoreW = OpenFile.a("");
+			String[]
+			if (state == 1) {
+				
+			} else if (state == 0) {
+				
+			} else {
+				
+			}
+		} catch (IOException e) {
 			
-		} else if (state == 0) {
-			
-		} else {
-			
+		} finally {
+			try {				
+				if (fileScoreW != null)  fileScoreW.close();
+			} catch (IOException e) {}
 		}
+	}
+	
+	public String[] playerInScore (String n) {
+		BufferedReader fileScoreR = null;
+		BufferedWriter fileScoreW = null;
+		String line = null;
+		String file = "";
+		String[] player = null;
+		try {
+			fileScoreR = OpenFile.r("score");
+			while ((line = fileScoreR.readLine()) != null) {
+				String[] splice = line.split(",");
+				if (splice[0].equals(n)) {
+					player = splice;
+				} else {
+					file += line;
+				}
+			}
+			fileScoreW = OpenFile.w("score");
+			fileScoreW.write(file);
+		} catch (IOException e) {}
+		
+		finally {
+			try {
+				if (fileScoreR != null) fileScoreR.close();
+				
+				if (fileScoreW != null) fileScoreR.close();
+			} catch (IOException e) {}
+		}
+		return player;
 	}
 }
