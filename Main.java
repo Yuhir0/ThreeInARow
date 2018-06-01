@@ -55,21 +55,21 @@ public class Main extends JFrame {
 		
 		JLabel label = new JLabel("");
 		label.setIcon(new ImageIcon(Main.class.getResource("/image/ThreeInARow_Title.png")));
-		label.setBounds(99, 46, 441, 223);
+		label.setBounds(105, 46, 440, 200);
 		contentPane.add(label);
 		
 		JLabel lblO = new JLabel("O");
 		lblO.setVisible(false);
 		lblO.setForeground(Color.BLACK);
 		lblO.setFont(new Font("Arial Black", Font.BOLD, 20));
-		lblO.setBounds(23, 397, 33, 16);
+		
 		contentPane.add(lblO);
 		
 		JLabel lblX = new JLabel("X");
 		lblX.setVisible(false);
 		lblX.setForeground(Color.BLACK);
 		lblX.setFont(new Font("Arial Black", Font.BOLD, 20));
-		lblX.setBounds(579, 397, 33, 16);
+		lblX.setBounds(600, 395, 25, 16);
 		contentPane.add(lblX);
 		
 		
@@ -78,7 +78,7 @@ public class Main extends JFrame {
 		txtSinglePlayer.setVisible(false);
 		txtSinglePlayer.setFont(new Font("Arial", Font.PLAIN, 20));
 		txtSinglePlayer.setText("Player 1");
-		txtSinglePlayer.setBounds(200, 385, 244, 43);
+		txtSinglePlayer.setBounds(202, 385, 245, 40);
 		contentPane.add(txtSinglePlayer);
 		
 		// Text Jugador 1
@@ -87,7 +87,7 @@ public class Main extends JFrame {
 		txtPlayer1.setForeground(Color.BLACK);
 		txtPlayer1.setFont(new Font("Arial", Font.PLAIN, 20));
 		txtPlayer1.setText("Player1");
-		txtPlayer1.setBounds(51, 385, 244, 43);
+		txtPlayer1.setBounds(65, 385, 245, 40);
 		contentPane.add(txtPlayer1);
 		
 		// Text Jugador 2
@@ -97,7 +97,7 @@ public class Main extends JFrame {
 		txtPlayer2.setText("Player2");
 		txtPlayer2.setFont(new Font("Arial", Font.PLAIN, 20));
 		txtPlayer2.setColumns(10);
-		txtPlayer2.setBounds(325, 385, 244, 43);
+		txtPlayer2.setBounds(340, 385, 245, 40);
 		contentPane.add(txtPlayer2);
 		
 		
@@ -107,10 +107,11 @@ public class Main extends JFrame {
 		lblError.setFont(new Font("Dialog", Font.BOLD, 20));
 		lblError.setVisible(false);
 		lblError.setForeground(Color.RED);
-		lblError.setBounds(179, 439, 275, 24);
+		lblError.setBounds(195, 439, 260, 24);
 		contentPane.add(lblError);
 		
 		JButton btnStart = new JButton("START");
+		btnStart.setFocusable(false);
 		btnStart.setVisible(false);
 		btnStart.setBackground(new Color(255, 215, 0));
 		btnStart.setForeground(Color.BLACK);
@@ -136,15 +137,16 @@ public class Main extends JFrame {
 				}
 			}
 		});
-		btnStart.setBounds(179, 475, 268, 91);
+		btnStart.setBounds(190, 475, 270, 90);
 		contentPane.add(btnStart);
 		
 		JButton btnSinglePlayer = new JButton("SINGLE PLAYER");
+		btnSinglePlayer.setFocusable(false);
 		btnSinglePlayer.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			singlePlayer = true;
 			btnStart.setVisible(true);
-			lblO.setBounds(175, 397, 33, 16);
+			lblO.setBounds(170, 395, 25, 16);
 			lblO.setVisible(true);
 			lblX.setVisible(false);
 			txtSinglePlayer.setVisible(true);
@@ -153,10 +155,11 @@ public class Main extends JFrame {
 			}
 		});
 		btnSinglePlayer.setFont(new Font("Arial", Font.BOLD, 20));
-		btnSinglePlayer.setBounds(99, 281, 196, 43);
+		btnSinglePlayer.setBounds(115, 280, 195, 45);
 		contentPane.add(btnSinglePlayer);
 		
 		JButton btnMultiplayer = new JButton("MULTIPLAYER");
+		btnMultiplayer.setFocusable(false);
 		btnMultiplayer.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			singlePlayer = false;
@@ -164,16 +167,17 @@ public class Main extends JFrame {
 			txtSinglePlayer.setVisible(false);
 			txtPlayer2.setVisible(true);
 			txtPlayer1.setVisible(true);
-			lblO.setBounds(23, 397, 33, 16);
+			lblO.setBounds(30, 395, 25, 16);
 			lblO.setVisible(true);
 			lblX.setVisible(true);
 			}
 		});
 		btnMultiplayer.setFont(new Font("Arial", Font.BOLD, 20));
-		btnMultiplayer.setBounds(325, 281, 196, 43);
+		btnMultiplayer.setBounds(340, 280, 195, 45);
 		contentPane.add(btnMultiplayer);
 		
 		JButton btnScoreboard = new JButton("Scoreboard");
+		btnScoreboard.setFocusable(false);
 		btnScoreboard.setForeground(Color.BLACK);
 		btnScoreboard.setBackground(Color.WHITE);
 		btnScoreboard.addActionListener(new ActionListener() {
