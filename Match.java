@@ -3,7 +3,10 @@
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import openfile.OpenFile;
+import player.Player;
+import player.AI;
+
 import javax.swing.JButton;
 import java.awt.Button;
 import java.awt.Font;
@@ -11,8 +14,6 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -20,8 +21,6 @@ import java.awt.Cursor;
 import java.awt.Color;
 import java.awt.SystemColor;
 import javax.swing.UIManager;
-import javax.swing.JSeparator;
-import java.awt.List;
 
 public class Match extends JFrame {
 
@@ -40,10 +39,9 @@ public class Match extends JFrame {
 	private JLabel lblPlayerTurn;
 	
 	private int turn = 0;
-	private Player[] players = new Player[2];
+	private Player[] players;
 	
-	private String[][] board = new String[3][3];
-	private HashSet<Button> cells = new HashSet<Button>();
+	private Button[][] board;
 	
 	private boolean canClick = true;
 	private JButton btnRestart;
@@ -57,7 +55,7 @@ public class Match extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Match frame = new Match(new Player("Player1","O"), new Player("Player2", "X"));
+					Match frame = new Match(new Player("Player1","O"), new AI("Player2", "X"));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -71,7 +69,8 @@ public class Match extends JFrame {
 	 */
 	public Match(Player p1, Player p2) {
 		setTitle("Three in a Row");
-		players[0] = p1; players[1] = p2;
+		
+		players = new Player[] {p1,p2};
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 650, 650);
@@ -95,7 +94,6 @@ public class Match extends JFrame {
 		cell00.setFont(new Font("Arial Black", Font.BOLD, 50));
 		cell00.setBounds(181, 109, 100, 100);
 		contentPane.add(cell00);
-		cells.add(cell00);
 		
 		cell01 = new Button();
 		cell01.setForeground(Color.DARK_GRAY);
@@ -110,7 +108,6 @@ public class Match extends JFrame {
 		cell01.setFont(new Font("Arial Black", Font.BOLD, 50));
 		cell01.setBounds(281, 109, 100, 100);
 		contentPane.add(cell01);
-		cells.add(cell01);
 		
 		cell02 = new Button();
 		cell02.setForeground(Color.DARK_GRAY);
@@ -125,7 +122,6 @@ public class Match extends JFrame {
 		cell02.setFont(new Font("Arial Black", Font.BOLD, 50));
 		cell02.setBounds(381, 109, 100, 100);
 		contentPane.add(cell02);
-		cells.add(cell02);
 		
 		cell10 = new Button();
 		cell10.setForeground(Color.DARK_GRAY);
@@ -140,7 +136,6 @@ public class Match extends JFrame {
 		cell10.setFont(new Font("Arial Black", Font.BOLD, 50));
 		cell10.setBounds(181, 209, 100, 100);
 		contentPane.add(cell10);
-		cells.add(cell10);
 		
 		cell11 = new Button();
 		cell11.setForeground(Color.DARK_GRAY);
@@ -155,7 +150,6 @@ public class Match extends JFrame {
 		cell11.setFont(new Font("Arial Black", Font.BOLD, 50));
 		cell11.setBounds(281, 209, 100, 100);
 		contentPane.add(cell11);
-		cells.add(cell11);
 		
 		cell12 = new Button();
 		cell12.setForeground(Color.DARK_GRAY);
@@ -170,7 +164,6 @@ public class Match extends JFrame {
 		cell12.setFont(new Font("Arial Black", Font.BOLD, 50));
 		cell12.setBounds(381, 209, 100, 100);
 		contentPane.add(cell12);
-		cells.add(cell12);
 		
 		cell20 = new Button();
 		cell20.setForeground(Color.DARK_GRAY);
@@ -185,7 +178,6 @@ public class Match extends JFrame {
 		cell20.setFont(new Font("Arial Black", Font.BOLD, 50));
 		cell20.setBounds(181, 309, 100, 100);
 		contentPane.add(cell20);
-		cells.add(cell20);
 		
 		cell21 = new Button();
 		cell21.setForeground(Color.DARK_GRAY);
@@ -200,7 +192,6 @@ public class Match extends JFrame {
 		cell21.setFont(new Font("Arial Black", Font.BOLD, 50));
 		cell21.setBounds(281, 309, 100, 100);
 		contentPane.add(cell21);
-		cells.add(cell21);
 		
 		cell22 = new Button();
 		cell22.setForeground(Color.DARK_GRAY);
@@ -215,7 +206,12 @@ public class Match extends JFrame {
 		cell22.setFont(new Font("Arial Black", Font.BOLD, 50));
 		cell22.setBounds(381, 309, 100, 100);
 		contentPane.add(cell22);
-		cells.add(cell22);
+		
+		board = new Button[][] {{cell00,cell01,cell02},{cell10,cell11,cell12},{cell20,cell21,cell22}};
+		
+		if (p2 instanceof AI) {
+			((AI) p2).setBoard(board);
+		}
 		
 		endText = new JLabel();
 		endText.setFont(new Font("Arial", Font.BOLD, 20));
@@ -254,17 +250,29 @@ public class Match extends JFrame {
 		lblPlayerTurn.setFont(new Font("Arial", Font.BOLD, 15));
 		lblPlayerTurn.setBounds(181, 53, 300, 25);
 		contentPane.add(lblPlayerTurn);
+		
+		
 	}
 	
 	public void buttonClicked(Button b, int x, int y) {
-		if (canClick && b.getLabel().isEmpty()) {
-			b.setLabel(players[turn].getPiece());
-			board[x][y] = players[turn].getPiece();
+		if ((canClick && b.getLabel().isEmpty())) {
+			
+			board[x][y].setLabel(players[turn].getPiece());
+			
 			
 			if (!haveWinner()) {
 				nextTurn();
 				
-				lblPlayerTurn.setText(players[turn].getName());
+				if (players[turn] instanceof AI) {
+					canClick = false;
+					
+					try {
+						((AI)players[turn]).nextMovement();
+					} catch (Exception e) { System.out.println(e.getMessage()); }
+					canClick = true;
+					if (!haveWinner()) nextTurn();
+				}
+				
 			}
 		}
 	}
@@ -295,11 +303,11 @@ public class Match extends JFrame {
 	}
 	
 	public boolean completedRow() {
-		int row = 0;
-		for (String[] r: board) {
-			row = 0;
-	        for (String c: r) {
-	            if (c != null && c.equals(players[turn].getPiece())) {
+		for (Button[] r: board) {
+			int row = 0;
+	        for (Button c: r) {
+	        	String s = c.getLabel();
+	            if (!s.isEmpty() && s.equals(players[turn].getPiece())) {
 	                row++;
 	            }
 	        }
@@ -309,11 +317,11 @@ public class Match extends JFrame {
 	}
 	
 	public boolean completedColumn() {
-		int col = 0;
-		for (int c = 0; c < board.length; c++) {
-			col = 0;
-	        for (int r = 0; r < board[c].length; r++) {
-	            if (board[r][c] != null && board[r][c].equals(players[turn].getPiece())) {
+		for (int r = 0; r < board.length; r++) {
+			int col = 0;
+	        for (int c = 0; c < board[r].length; c++) {
+	        	String s = board[c][r].getLabel();
+	            if (!s.isEmpty() && s.equals(players[turn].getPiece())) {
 	                col++;
 	            }
 	        }
@@ -326,7 +334,8 @@ public class Match extends JFrame {
 	public boolean completedDiagonal() {
 		int diag = 0;
 		for (int i = 0; i < board.length; i++) {
-		    if (board[i][i] != null && board[i][i].equals(players[turn].getPiece())) {
+			String s = board[i][i].getLabel();
+		    if (!s.isEmpty() && s.equals(players[turn].getPiece())) {
 		        diag++;
 		    }
 		}
@@ -334,7 +343,8 @@ public class Match extends JFrame {
 		
 		diag = 0;
 		for (int i = 0; i < board.length; i++) {
-		    if (board[i][2-i] != null && board[i][2-i].equals(players[turn].getPiece())) {
+			String s = board[i][2-i].getLabel();
+		    if (!s.isEmpty() && s.equals(players[turn].getPiece())) {
 		        diag++;
 		    }
 		}
@@ -345,9 +355,9 @@ public class Match extends JFrame {
 	
 	public boolean allFill() {
 		int empty = 0;
-		for (String[] r: board) {
-	        for (String c: r) {
-	            if (c == null) {
+		for (Button[] r: board) {
+	        for (Button c: r) {
+	            if (c.getLabel().isEmpty()) {
 	                empty++;
 	            }
 	        }
@@ -356,15 +366,10 @@ public class Match extends JFrame {
 	}
 	
 	public void restartMatch() {
-		if (!canClick) {
-			Iterator<Button> iter = cells.iterator();
-			while (iter.hasNext()) {
-				iter.next().setLabel("");
-			}
-			
-			for (int r = 0; r < board.length; r++) {
-		        for (int c = 0; c < board[r].length; c++) {
-		            board[r][c] = null;
+		if (!canClick) {			
+			for (Button[] r: board) {
+		        for (Button c: r) {
+		            c.setLabel("");
 		        }
 			}
 			
@@ -379,6 +384,8 @@ public class Match extends JFrame {
 	public void nextTurn() {
 		if (turn == 0) turn++;
 		else turn--;
+		
+		lblPlayerTurn.setText(players[turn].getName());
 	}
 	
 	public void writeScore(Player p, int state) {
@@ -444,7 +451,6 @@ public class Match extends JFrame {
 				if (fileScoreW != null) fileScoreW.close();
 			} catch (IOException e) {System.out.println(e.getMessage());}
 		}
-		System.out.println(file);
 		return player;
 	}
 }

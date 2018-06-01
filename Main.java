@@ -1,6 +1,9 @@
 // Dani Gonzalo
 import java.awt.EventQueue;
 import javax.xml.*;
+
+import player.Player;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -77,14 +80,14 @@ public class Main extends JFrame {
 		txtPlayer1 = new JTextField();
 		txtPlayer1.setForeground(Color.BLACK);
 		txtPlayer1.setFont(new Font("Arial", Font.PLAIN, 20));
-		txtPlayer1.setText("Player 1");
+		txtPlayer1.setText("Player1");
 		txtPlayer1.setBounds(51, 385, 244, 43);
 		contentPane.add(txtPlayer1);
 		
 		// Text Jugador 2
 		txtPlayer2 = new JTextField();
 		txtPlayer2.setForeground(Color.BLACK);
-		txtPlayer2.setText("Player 2");
+		txtPlayer2.setText("Player2");
 		txtPlayer2.setFont(new Font("Arial", Font.PLAIN, 20));
 		txtPlayer2.setColumns(10);
 		txtPlayer2.setBounds(325, 385, 244, 43);
