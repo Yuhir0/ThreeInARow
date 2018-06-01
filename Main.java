@@ -14,15 +14,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Main extends JFrame {
 
 	private JPanel contentPane;
+	private JLabel lblError;
 	private JTextField txtPlayer1;
 	private JTextField txtPlayer2;
 	private JTextField txtSinglePlayer;
 	private boolean singlePlayer;
-
 	/**
 	 * Launch the application.
 	 */
@@ -102,7 +104,7 @@ public class Main extends JFrame {
 		
 		
 		// Text Error
-		JLabel lblError = new JLabel("Input a valid Name");
+		lblError = new JLabel("Input a valid Name");
 		lblError.setHorizontalAlignment(SwingConstants.CENTER);
 		lblError.setFont(new Font("Dialog", Font.BOLD, 20));
 		lblError.setVisible(false);
@@ -118,23 +120,7 @@ public class Main extends JFrame {
 		btnStart.setFont(new Font("Impact", Font.BOLD, 50));
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (singlePlayer) {
-					if ((!txtSinglePlayer.getText().isEmpty() && txtSinglePlayer.getText().length() < 20)) {
-						Match match = new Match(new Player(txtSinglePlayer.getText(),"O"), new AI("AI","X"));
-						match.setVisible(true);
-						dispose();
-					}else {
-						lblError.setVisible(true);
-					}
-				}else {
-					if ((!txtPlayer1.getText().isEmpty() && !txtPlayer2.getText().isEmpty()) && (txtPlayer1.getText().length() < 20 && txtPlayer2.getText().length() < 20)) {
-						Match match = new Match(new Player(txtPlayer1.getText(),"O"), new Player(txtPlayer2.getText(), "X"));
-						match.setVisible(true);
-						dispose();
-					} else {
-						lblError.setVisible(true);
-					}
-				}
+				startGame();
 			}
 		});
 		btnStart.setBounds(190, 475, 270, 90);
@@ -190,5 +176,24 @@ public class Main extends JFrame {
 		});
 		btnScoreboard.setBounds(519, 12, 117, 25);
 		contentPane.add(btnScoreboard);
+	}
+	public void startGame() {
+		if (singlePlayer) {
+			if ((!txtSinglePlayer.getText().isEmpty() && txtSinglePlayer.getText().length() < 20)) {
+				Match match = new Match(new Player(txtSinglePlayer.getText(),"O"), new AI("AI","X"));
+				match.setVisible(true);
+				dispose();
+			}else {
+				lblError.setVisible(true);
+			}
+		}else {
+			if ((!txtPlayer1.getText().isEmpty() && !txtPlayer2.getText().isEmpty()) && (txtPlayer1.getText().length() < 20 && txtPlayer2.getText().length() < 20)) {
+				Match match = new Match(new Player(txtPlayer1.getText(),"O"), new Player(txtPlayer2.getText(), "X"));
+				match.setVisible(true);
+				dispose();
+			} else {
+				lblError.setVisible(true);
+			}
+		}
 	}
 }
