@@ -49,22 +49,6 @@ public class Match extends JFrame {
 	private String scorePath = "./src/score/score";
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Match frame = new Match(new Player("Player1","O"), new AI("Player2", "X"));
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public Match(Player p1, Player p2) {
@@ -295,6 +279,7 @@ public class Match extends JFrame {
 			lblPlayerTurn.setText("");
 			
 			writeScore(players[turn], 0);
+			
 			nextTurn();
 			writeScore(players[turn], 0);
 			return true;
@@ -389,35 +374,37 @@ public class Match extends JFrame {
 	}
 	
 	public void writeScore(Player p, int state) {
-		BufferedWriter fileScoreW = null;
-		int c;
-		String newScore;
-		try {
-			String[] playerScore = playerInScore(p.getName());
-			if (playerScore == null) playerScore = new String[] {p.getName(),"0","0","0"};
-			
-			if (state == 1) {
-				c = Integer.parseInt(playerScore[1]);
-				c++;
-				newScore = playerScore[0] + "," + c + "," + playerScore[2] + "," + playerScore[3];
-			} else if (state == -1) {
-				c = Integer.parseInt(playerScore[2]);
-				c++;
-				newScore = playerScore[0] + "," + playerScore[1] + "," + c + "," + playerScore[3];
-			} else {
-				c = Integer.parseInt(playerScore[3]);
-				c++;
-				newScore = playerScore[0] + "," + playerScore[1] + "," + playerScore[2] + "," + c;
+		if (!(p instanceof AI)) {
+			BufferedWriter fileScoreW = null;
+			int c;
+			String newScore;
+			try {
+				String[] playerScore = playerInScore(p.getName());
+				if (playerScore == null) playerScore = new String[] {p.getName(),"0","0","0"};
+				
+				if (state == 1) {
+					c = Integer.parseInt(playerScore[1]);
+					c++;
+					newScore = playerScore[0] + "," + c + "," + playerScore[2] + "," + playerScore[3];
+				} else if (state == -1) {
+					c = Integer.parseInt(playerScore[2]);
+					c++;
+					newScore = playerScore[0] + "," + playerScore[1] + "," + c + "," + playerScore[3];
+				} else {
+					c = Integer.parseInt(playerScore[3]);
+					c++;
+					newScore = playerScore[0] + "," + playerScore[1] + "," + playerScore[2] + "," + c;
+				}
+				
+				fileScoreW = OpenFile.a(scorePath);
+				fileScoreW.write(newScore);
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			} finally {
+				try {				
+					if (fileScoreW != null)  fileScoreW.close();
+				} catch (IOException e) {System.out.println(e.getMessage());}
 			}
-			
-			fileScoreW = OpenFile.a(scorePath);
-			fileScoreW.write(newScore);
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		} finally {
-			try {				
-				if (fileScoreW != null)  fileScoreW.close();
-			} catch (IOException e) {System.out.println(e.getMessage());}
 		}
 	}
 	
